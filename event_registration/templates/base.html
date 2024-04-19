@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Event Registration System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="#">
+    <style>
+        body {
+            background-color: #162D3F;
+        }
+        nav {
+            background-color: #FFEDE2;
+        }
+        .custom-button {
+            background-color: #428265;
+        }
+        .custom-button:hover {
+            background-color: #5896C0;
+        }
+        a {
+            color: #5896C0;
+        }
+        a:hover {
+            color: #CF9ABA;
+        }
+        .edit-button {
+            background-color: #5896C0;
+        }
+        .edit-button:hover {
+            background-color: #428265;
+        }
+        .delete-button {
+            background-color: #A82A2A;
+        }
+        .delete-button:hover {
+            background-color: #CF9ABA;
+        }
+        .bg-cream {
+            background-color: #FFEDE2;
+            border: 1px solid #EFA41F;
+        }
+        .unreg-button {
+            background-color: #E46014;
+        }
+        .unreg-button:hover {
+            background-color: #EFA41F;
+        }
+    </style>
+</head>
+<body class="">
+    <nav class="shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="{% url 'landing_page' %}" class="flex-shrink-0 flex items-center">
+                        <span class="text-xl font-semibold text-black">Event Registration</span>
+                    </a>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="{% url 'event_list' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium ">Events</a>
+                        {% if not user.is_superuser %}
+                            <a href="{% url 'registered_event_list' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium ">My Events</a>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            <a href="{% url 'event_create' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium ">Create Event</a>
+                            <a href="{% url 'event_registrants' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium ">Event Registrants</a>
+                            <a href="{% url 'user_list' %}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium ">Users</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    {% if user.is_authenticated %}
+                        <span class="text-gray-800">Welcome, {{ user.username }}</span>
+                        <a href="{% url 'logout' %}" class="ml-4 px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="px-3 py-2 rounded-md text-sm font-medium ">Login</a>
+                        <a href="{% url 'register' %}" class="custom-button ml-4 px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {% if '/admin/' in request.path %}
+        <div class="flex w-full justify-center items-center">
+            <div class="flex justify-evenly items-center w-10/12 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        {% endif %}
+        {% block content %}
+         
+        {% endblock %}
+        {% if '/admin/' in request.path %}
+        </div>
+        </div>
+        {% endif %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'admin/base_site.html' %}
+
+{% block content %}
+<div class="flex w-full justify-center items-center">
+    <div class="w-10/12 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <h1 class="text-2xl font-bold mb-4">My Events</h1>
+        
+        <ul class="space-y-4">
+            {% for event in events %}
+            <li class="flex justify-between items-center bg-cream shadow-md rounded px-4 py-2">
+                <div>
+                    <h3 class="text-xl font-semibold">{{ event.name }}</h3>
+                    <p class=""><strong>Date:</strong> {{ event.start_date }} - {{ event.end_date }}</p>
+                </div>
+                <div class="flex space-x-2">
+                    <a href="{% url 'event_unregister' event.pk %}" class="unreg-button text-white hover:text-white font-bold py-1 px-4 rounded">Unregister</a>
+                </div>
+            </li>
+            {% empty %}
+            <li class="flex justify-center items-center bg-cream shadow-md rounded px-4 py-2">
+                <p>You have not registered for any events.</p>
+            </li>
+            {% endfor %}
+        </ul>
+        
+    </div>
+</div>
+{% endblock %}
